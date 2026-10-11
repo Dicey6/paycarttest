@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, X, Bell } from "lucide-react";
+import { Menu, X, Bell, LogOut } from "lucide-react";
 import { LogoLockup } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "./ui";
@@ -103,13 +103,18 @@ export function AppNav() {
           </div>
           <button
             type="button"
+            aria-label="Log out"
+            title="Log out"
             onClick={async () => {
-              await signOut();
-              router.replace("/login");
+              try {
+                await signOut();
+              } finally {
+                router.replace("/login");
+              }
             }}
-            className="hidden sm:block text-xs font-medium px-2 py-2 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+            className="w-9 h-9 rounded-full flex items-center justify-center border border-neutral-200 dark:border-neutral-800 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
-            Log out
+            <LogOut className="w-4 h-4" />
           </button>
         </div>
       </div>

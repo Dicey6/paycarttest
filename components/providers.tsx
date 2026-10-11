@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { getSupabaseBrowserClient, type Profile } from "@/lib/supabase";
-import { connectEvmWallet, connectSolanaWallet } from "@/lib/wallet";
+import { WalletsProvider } from "@/components/wallets";
 
 /* --------------------------------- Theme --------------------------------- */
 
@@ -169,61 +169,11 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-/* --------------------------------- Wallet --------------------------------- */
-
-type WalletContextValue = {
-  address: string;
-  network: "evm" | "solana" | null;
-  connectEvm: () => Promise<string>;
-  connectSolana: () => Promise<string>;
-  disconnect: () => void;
-};
-
-const WalletContext = createContext<WalletContextValue>({
-  address: "",
-  network: null,
-  connectEvm: async () => "",
-  connectSolana: async () => "",
-  disconnect: () => {},
-});
-
-export function WalletProvider({ children }: { children: React.ReactNode }) {
-  const [address, setAddress] = useState("");
-  const [network, setNetwork] = useState<"evm" | "solana" | null>(null);
-
-  const connectEvm = async () => {
-    const nextAddress = await connectEvmWallet();
-    setAddress(nextAddress);
-    setNetwork("evm");
-    return nextAddress;
-  };
-
-  const connectSolana = async () => {
-    const nextAddress = await connectSolanaWallet();
-    setAddress(nextAddress);
-    setNetwork("solana");
-    return nextAddress;
-  };
-
-  return (
-    <WalletContext.Provider value={{ address, network, connectEvm, connectSolana, disconnect: () => {
-      setAddress("");
-      setNetwork(null);
-    } }}>
-      {children}
-    </WalletContext.Provider>
-  );
-}
-
-export function useWallet() {
-  return useContext(WalletContext);
-}
-
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <WalletProvider>{children}</WalletProvider>
+        <WalletsProvider>{children}</WalletsProvider>
       </AuthProvider>
     </ThemeProvider>
   );

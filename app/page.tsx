@@ -15,6 +15,9 @@ import {
   FileText,
   Smartphone,
   Shield,
+  Gift,
+  Send,
+  ArrowDownToLine,
 } from "lucide-react";
 import { PublicNav } from "@/components/Nav";
 import { VirtualCard } from "@/components/VirtualCard";
@@ -171,6 +174,60 @@ export default function HomePage() {
             <StepRow n="02" title="Fund" body="Fund your BowPay balance with a supported stablecoin." />
             <StepRow n="03" title="Issue" body="A private virtual card is generated for your account." />
             <StepRow n="04" title="Spend" body="Use the card for online payments, wherever cards are accepted." />
+          </div>
+        </div>
+      </section>
+
+      {/* BowGift */}
+      <section id="gifts" className="border-t border-neutral-200 dark:border-neutral-800">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <Badge tone="green">
+              <Gift className="w-3 h-3" /> BowGift
+            </Badge>
+            <h2 className="text-2xl font-semibold tracking-tight mt-4 mb-3">Send money as a gift card</h2>
+            <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400 max-w-md">
+              Pick an amount from $5, pay straight from your connected wallet, and download your card as an
+              image to send. Whoever enters the code first gets the balance on their own BowPay card. A
+              flat $1 fee applies.
+            </p>
+            <div className="flex flex-wrap items-center gap-3 mt-6">
+              <Link href="/gifts">
+                <Button className="px-5 py-3">
+                  <Gift className="w-4 h-4" /> Create a gift card
+                </Button>
+              </Link>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3 mt-8 max-w-md">
+              <div className="flex items-start gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+                <Send className="w-4 h-4 mt-0.5 shrink-0 text-brand-dark dark:text-brand" />
+                <span>Send to any @username straight from your wallet</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm text-neutral-500 dark:text-neutral-400">
+                <ArrowDownToLine className="w-4 h-4 mt-0.5 shrink-0 text-brand-dark dark:text-brand" />
+                <span>Claimed gifts land on the claimer&apos;s card instantly</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center md:justify-end">
+            <div
+              className="relative w-full max-w-sm aspect-[1.6/1] rounded-3xl p-6 flex flex-col justify-between overflow-hidden shadow-xl rotate-[-3deg]"
+              style={{ background: "linear-gradient(135deg, #A6EF33 0%, #5E9E00 100%)" }}
+            >
+              <div className="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-white/10" />
+              <div className="relative flex items-center justify-between text-neutral-950">
+                <span className="font-bold text-lg">BowGift</span>
+                <span className="text-xs font-semibold opacity-70">BowPay</span>
+              </div>
+              <div className="relative text-neutral-950">
+                <div className="text-[11px] font-semibold tracking-[0.2em] opacity-70">GIFT CARD</div>
+                <div className="text-6xl font-extrabold leading-none mt-1">$25</div>
+              </div>
+              <div className="relative rounded-2xl bg-neutral-950/90 px-4 py-3">
+                <div className="text-[9px] font-semibold tracking-[0.25em] text-brand/70">REDEEM CODE</div>
+                <div className="font-mono text-sm font-bold tracking-widest text-brand">BOW-XXXX-XXXX-XXXX-XXXX</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

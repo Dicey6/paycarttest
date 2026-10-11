@@ -8,14 +8,31 @@ export function VirtualCard({
   frozen = false,
   size = "default",
   holderName = "",
+  cardNumber = "",
+  last4 = "",
+  expiryMonth,
+  expiryYear,
+  balanceUsd,
 }: {
   revealed?: boolean;
   frozen?: boolean;
   size?: "default" | "large";
   holderName?: string;
+  cardNumber?: string;
+  last4?: string;
+  expiryMonth?: number;
+  expiryYear?: number;
+  /** When provided, the card shows this BowPay balance. */
+  balanceUsd?: number;
 }) {
   const dims =
     size === "large" ? "aspect-[1.586/1] w-full max-w-[260px]" : "aspect-[1.586/1] w-full max-w-[220px]";
+  const tail = last4 || cardNumber.slice(-4) || "••••";
+  const groups = cardNumber.length === 16 ? cardNumber.match(/.{4}/g)!.join("  ") : "";
+  const expiry =
+    expiryMonth && expiryYear
+      ? `${String(expiryMonth).padStart(2, "0")}/${String(expiryYear).slice(-2)}`
+      : "••/••";
   const name = holderName?.trim() ? holderName.trim().toUpperCase() : "YOUR NAME";
 
   return (
@@ -48,9 +65,17 @@ export function VirtualCard({
         )}
       </div>
 
-      <div className="relative z-10 space-y-2">
+      <div className="relative z-10 space-y-1.5">
+        {balanceUsd !== undefined && (
+          <div>
+            <div className="text-white/40 text-[8px] uppercase tracking-wide">Balance</div>
+            <div className="text-white text-sm font-semibold leading-tight">
+              {balanceUsd.toLocaleString(undefined, { style: "currency", currency: "USD" })}
+            </div>
+          </div>
+        )}
         <div className="text-white text-xs tracking-[0.12em] font-medium">
-          {revealed ? "4821  9016  2247  4821" : "••••  ••••  ••••  4821"}
+          {revealed && groups ? groups : `••••  ••••  ••••  ${tail}`}
         </div>
         <div className="flex items-end justify-between">
           <div>
@@ -59,7 +84,7 @@ export function VirtualCard({
           </div>
           <div className="text-right">
             <div className="text-white/40 text-[8px] uppercase tracking-wide mb-0.5">Valid thru</div>
-            <div className="text-white text-[11px] font-medium">09/29</div>
+            <div className="text-white text-[11px] font-medium">{expiry}</div>
           </div>
         </div>
       </div>

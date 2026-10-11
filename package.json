@@ -1,6 +1,6 @@
 {
   "name": "bowpay",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,22 +9,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@solana/spl-token": "^0.4.9",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-phantom": "^0.9.24",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-solflare": "^0.6.28",
+    "@solana/web3.js": "^1.95.4",
+    "@supabase/supabase-js": "^2.45.4",
+    "bs58": "^5.0.0",
+    "lucide-react": "^0.383.0",
     "next": "14.2.35",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "lucide-react": "^0.383.0",
-    "@supabase/supabase-js": "^2.45.4",
-    "@supabase/ssr": "^0.5.1"
+    "viem": "^2.21.0"
   },
   "devDependencies": {
-    "typescript": "^5.4.5",
     "@types/node": "^20.12.12",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
-    "tailwindcss": "^3.4.3",
-    "postcss": "^8.4.38",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.35"
+    "eslint-config-next": "14.2.35",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5"
   }
 }

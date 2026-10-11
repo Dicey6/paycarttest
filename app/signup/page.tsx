@@ -8,6 +8,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button, Field, Input } from "@/components/ui";
 import { useAuth } from "@/components/providers";
 import { getAuthRedirectUrl, getSupabaseBrowserClient } from "@/lib/supabase";
+import { isUsernameAvailable } from "@/lib/transfers";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -28,8 +29,9 @@ export default function SignupPage() {
     e.preventDefault();
     setError("");
     setMessage("");
-    if (!draft.trim()) {
-      setError("Enter a username — it'll appear on your card.");
+    const handle = draft.trim().replace(/^@+/, "");
+    if (!/^[A-Za-z0-9_]{3,24}$/.test(handle)) {
+      setError("Username must be 3–24 characters: letters, numbers or underscore.");
       return;
     }
     if (password !== confirm) {
@@ -39,11 +41,14 @@ export default function SignupPage() {
     setSubmitting(true);
 
     try {
+      if (!(await isUsernameAvailable(handle))) {
+        throw new Error("That username is taken. Try another one.");
+      }
       const { data, error: signupError } = await getSupabaseBrowserClient().auth.signUp({
         email: email.trim(),
         password,
         options: {
-          data: { username: draft.trim() },
+          data: { username: handle },
           emailRedirectTo: getAuthRedirectUrl(),
         },
       });
@@ -91,10 +96,12 @@ export default function SignupPage() {
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            <Field label="Username" hint="This is how you'll appear on your virtual card.">
+            <Field label="Username" hint="Unique. Friends send you funds with @username, and it appears on your card.">
               <Input
                 type="text"
-                placeholder="Ren Uchiha"
+                placeholder="renuchiha"
+                autoCapitalize="none"
+                autoCorrect="off"
                 value={draft}
                 maxLength={24}
                 onChange={(e) => setDraft(e.target.value)}
